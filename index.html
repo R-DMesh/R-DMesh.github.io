@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R-DMesh: Video-Guided 3D Animation via Rectified Dynamic Mesh Flow</title>
+    <meta name="description" content="Project page for R-DMesh: Video-Guided 3D Animation via Rectified Dynamic Mesh Flow.">
+    
+    <!-- Google Fonts for a professional look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;600&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./Project Page/rdmesh-logo.png">
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --text-color: #333;
+            --bg-color: #fdfdfd;
+            --section-bg: #f4f6f8;
+            --max-width: 1000px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+            margin: 10px auto 0;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 修改 header 样式，允许 flex 布局 */
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+
+        /* 新增一个容器来包裹 Logo 和 H1 */
+        .title-group {
+            display: flex;
+            align-items: center; /* 垂直居中 */
+            justify-content: center; /* 水平居中 */
+            gap: -20px; /* Logo 和文字的间距 */
+            margin-bottom: 15px;
+            flex-wrap: wrap; /* 手机端自动换行 */
+        }
+
+        /* 调整 Logo 大小 */
+        .project-logo {
+            height: 120px; /* 稍微调小一点，适配文字高度 */
+            width: auto;
+            /* 如果 Logo 图片自带底部文字，可能需要用负 margin 稍微修正一下对齐，或者建议裁剪图片 */
+        }
+
+        /* 调整 H1，去掉原本的 margin，由父容器控制 */
+        h1 {
+            margin: 0;
+            text-align: center; /* 文字左对齐，看起来像标题 */
+            max-width: 800px; /* 防止文字太长 */
+        }
+
+        /* 手机端适配：变回垂直排列 */
+        @media (max-width: 768px) {
+            .title-group {
+                flex-direction: column;
+                text-align: center;
+            }
+            h1 {
+                text-align: center;
+                font-size: 2rem;
+            }
+        }
+
+        .conference-info {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .authors {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .authors a {
+            color: var(--primary-color);
+            margin: 0 8px;
+            font-weight: 500;
+        }
+
+        .affiliations {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .affiliations span {
+            margin: 0 10px;
+        }
+
+        /* Button Links */
+        .link-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none !important;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .btn:hover {
+            background: #555;
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        /* Teaser Section */
+        .teaser {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .teaser-media {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            /* Placeholder style - remove background when using real video/img */
+            background: #eee; 
+            min-height: 400px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            overflow: hidden;
+        }
+        
+        .teaser-media video, .teaser-media img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .teaser-caption {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: #555;
+            text-align: justify;
+        }
+
+        /* Abstract Section */
+        .abstract-section {
+            background: var(--section-bg);
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+
+        .abstract-text {
+            text-align: justify;
+            font-size: 1.05rem;
+        }
+
+        /* Method/Pipeline */
+        /* .pipeline-img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+            Placeholder style
+            background: #eee;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+        } */
+
+        /* 找到原来的 .pipeline-img，替换为以下内容 */
+        .pipeline-img {
+            width: 100%;
+            text-align: center; /* 让图片居中显示 */
+            margin-bottom: 15px;
+        }
+
+        /* 新增针对内部 img 标签的样式 */
+        .pipeline-img img {
+            max-width: 100%;    /* 限制最大宽度不超过父容器 */
+            height: auto;       /* 高度自动，保持长宽比 */
+            border-radius: 8px; /* 圆角，为了美观 */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* 轻微阴影，增加层次感 */
+            border: 1px solid #eee; /* 边框 */
+        }
+
+
+
+        /* Results Grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .result-item {
+            text-align: center;
+        }
+
+        /* 1. 修改 .result-media，去掉占位用的背景色，保留布局属性 */
+        .result-media {
+            width: 100%;
+            border-radius: 8px;
+            /* background: #eee;  <-- 删除或注释掉这个灰色背景，因为现在有真视频了 */
+            /* aspect-ratio: 16/9; <-- 如果你的视频比例不统一，建议注释掉这一行，让高度自适应 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* 关键：防止视频圆角溢出 */
+            margin-bottom: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* 可选：加点阴影 */
+        }
+
+        /* 2. 新增：强制视频适应容器宽度 */
+        .result-media video {
+            width: 100%;
+            height: auto;   /* 高度自动，保持比例 */
+            display: block; /* 消除底部微小空隙 */
+            object-fit: cover; /* 如果你保留了 aspect-ratio，用 cover 可以填满格子 */
+        }
+
+        /* BibTeX */
+        .bibtex-section {
+            background: #f1f1f1;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            border-left: 5px solid var(--accent-color);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 60px;
+            border-top: 1px solid #eee;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .abstract-section { padding: 20px; }
+            .teaser-media { min-height: 250px; }
+        }
+
+        /* --- Carousel (Slider) Styles --- */
+        .carousel-container {
+            position: relative;
+            max-width: 1000px; /* 限制轮播图最大宽度，可根据需要调整 */
+            margin: 0 auto 40px; /* 居中显示 */
+            overflow: hidden; /* 隐藏超出容器的部分 */
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: #000; /* 视频背景通常设为黑色 */
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.4s ease-in-out; /* 平滑过渡效果 */
+            width: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%; /* 每个滑块占满容器宽度 */
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .carousel-slide video {
+            width: 100%;
+            display: block;
+            height: auto;
+        }
+
+        .carousel-caption {
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        /* Navigation Buttons */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+            z-index: 10;
+        }
+
+        .carousel-btn:hover {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+        }
+
+        .prev-btn { left: 15px; }
+        .next-btn { right: 15px; }
+        
+        /* 单个视频展示容器 */
+        .single-result-container {
+            position: relative;
+            max-width: 1000px; /* 保持和轮播图一样的最大宽度 */
+            margin: 0 auto 40px; /* 居中 + 底部间距 */
+            border-radius: 8px;  /* 圆角 */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* 阴影 */
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* 让视频撑满容器 */
+        .single-result-container video {
+            width: 100%;
+            display: block;
+            height: auto;
+        }
+
+        /* 3D 模型网格容器 */
+        .mesh-grid {
+            display: grid;
+            /* 强制一行 4 列，每列等宽 */
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 15px; /* 模型之间的间距 */
+            margin-bottom: 40px;
+        }
+
+        /* 单个模型查看器的样式 */
+        model-viewer {
+            width: 100%;
+            height: 300px; /* 必须指定高度，否则默认为0 */
+            background-color: #f5f5f5; /* 浅灰背景，方便看清模型 */
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* 响应式适配：手机屏幕变成一行 2 个，或者 1 个 */
+        @media (max-width: 768px) {
+            .mesh-grid {
+                grid-template-columns: repeat(2, 1fr); /* 平板/大手机一行2个 */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mesh-grid {
+                grid-template-columns: 1fr; /* 小手机一行1个 */
+            }
+        }
+
+    /* --- 比较轮播组件样式 --- */
+    .comparison-container {
+        position: relative;
+        max-width: 1000px; /* 宽度设大一点，容纳左右两边 */
+        margin: 0 auto 50px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        padding: 20px;
+        overflow: hidden;
+    }
+
+    .comparison-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    /* 左侧视频区域 */
+    .comp-video-box {
+        flex: 1;
+        background: #000;
+        border-radius: 8px;
+        overflow: hidden;
+        aspect-ratio: 16/9; /* 或者根据你的视频比例调整 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .comp-video-box video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    /* 中间箭头区域 */
+    .comp-arrow {
+        flex: 0 0 60px; /* 固定宽度 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+        color: #3498db; /* 箭头颜色 */
+        animation: pulseArrow 2s infinite;
+    }
+
+    @keyframes pulseArrow {
+        0% { transform: translateX(0); opacity: 0.8; }
+        50% { transform: translateX(5px); opacity: 1; }
+        100% { transform: translateX(0); opacity: 0.8; }
+    }
+
+    /* 右侧3D模型区域 */
+    .comp-model-box {
+        flex: 1;
+        background: #f5f5f5;
+        border-radius: 8px;
+        overflow: hidden;
+        aspect-ratio: 16/9; /* 保持和视频一样的大小 */
+        position: relative;
+    }
+    model-viewer.comp-viewer {
+        width: 100%;
+        height: 100%;
+        --poster-color: #f5f5f5;
+    }
+
+    /* 底部标题 */
+    .comp-caption {
+        text-align: center;
+        margin-top: 15px;
+        font-weight: 500;
+        color: #555;
+        font-size: 1.1rem;
+    }
+
+    /* 左右切换按钮 (悬浮在容器两侧) */
+    .nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid #eee;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: #333;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        z-index: 10;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .nav-btn:hover {
+        background: #3498db;
+        color: white;
+    }
+    .nav-prev { left: 10px; }
+    .nav-next { right: 10px; }
+
+    /* 响应式适配：手机端变为垂直排列 */
+    @media (max-width: 768px) {
+        .comparison-content {
+            flex-direction: column;
+        }
+        .comp-arrow {
+            transform: rotate(90deg); /* 箭头向下 */
+            margin: 10px 0;
+            animation: none; /* 手机端取消动画，避免干扰 */
+        }
+        /* 手机端按钮调整位置，避免遮挡内容 */
+        .nav-btn {
+            top: auto;
+            bottom: 10px;
+            transform: none;
+        }
+        .nav-prev { left: 20px; }
+        .nav-next { right: 20px; }
+    }
+
+    /* --- 三段式交互容器 --- */
+    .transfer-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1100px;
+        margin: 0 auto 60px;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        padding: 30px;
+        gap: 20px;
+    }
+
+    /* 通用盒子样式 */
+    .model-box {
+        flex: 1.2; /* 模型窗口稍微大一点 */
+        background: #f0f0f0;
+        border-radius: 12px;
+        overflow: hidden;
+        aspect-ratio: 1/1; /* 正方形窗口 */
+        position: relative;
+        box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+    }
+
+    model-viewer {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* 连接符号 (+ 和 ->) */
+    .connector {
+        flex: 0 0 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+        color: #ccc;
+        font-weight: bold;
+    }
+    .connector.arrow {
+        color: #3498db;
+        animation: pulseRight 2s infinite;
+    }
+    .connector.plus {
+        color: #e67e22; /* 橙色加号 */
+    }
+
+    @keyframes pulseRight {
+        0% { transform: translateX(0); opacity: 0.7; }
+        50% { transform: translateX(5px); opacity: 1; }
+        100% { transform: translateX(0); opacity: 0.7; }
+    }
+
+    /* --- 中间图片选择列表 (优化版) --- */
+    .motion-list {
+        flex: 0.6; /* 宽度适中 */
+        height: 400px; /* 与左右模型窗口高度一致 */
+        display: flex;
+        flex-direction: column; /* 垂直排列 */
+        gap: 15px;
+        align-items: center;
+        padding: 20px 10px; /* 上下留白，方便滚动 */
+        overflow-y: auto; /* 允许垂直滚动 */
+        overflow-x: hidden;
+        /* 隐藏滚动条但保留功能 (兼容 Chrome/Safari) */
+        scrollbar-width: none; 
+        -ms-overflow-style: none;
+        position: relative;
+        /* 添加内阴影，提示可滚动 */
+        mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+        -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+    }
+
+    .motion-list::-webkit-scrollbar { 
+        display: none; 
+    }
+
+    .motion-item {
+        position: relative;
+        flex-shrink: 0; /* 防止被压缩 */
+        width: 80px;  /* 默认较小 */
+        height: 80px;
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* 平滑过渡 */
+        border: 2px solid transparent;
+        opacity: 0.6;
+        filter: grayscale(80%);
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .motion-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* 悬停效果 */
+    .motion-item:hover {
+        opacity: 0.9;
+        filter: grayscale(20%);
+        transform: scale(1.05);
+    }
+
+    /* --- 选中状态 (大幅放大 + 居中高亮) --- */
+    .motion-item.active {
+        width: 140px;  /* 宽度变大 */
+        height: 140px; /* 高度变大 */
+        border: 3px solid #3498db; /* 蓝色边框加粗 */
+        opacity: 1;
+        filter: grayscale(0%);
+        box-shadow: 0 10px 25px rgba(52, 152, 219, 0.4);
+        z-index: 10;
+        transform: scale(1); /* 重置 hover 的缩放，完全由宽高控制 */
+    }
+
+    /* 标签文字 */
+    .motion-label {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.7);
+        color: white;
+        font-size: 12px; /* 字体稍微大一点 */
+        font-weight: bold;
+        text-align: center;
+        padding: 6px 0;
+        transform: translateY(100%);
+        transition: transform 0.3s;
+    }
+
+    .motion-item.active .motion-label {
+        transform: translateY(0); /* 选中时显示标签 */
+    }
+
+    /* 响应式适配：手机端变为横向履带 */
+    @media (max-width: 768px) {
+        .motion-list {
+            flex-direction: row; /* 横向排列 */
+            width: 100%;
+            height: auto;
+            padding: 10px 20px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+        
+        .motion-item {
+            width: 70px; height: 70px;
+        }
+        
+        .motion-item.active {
+            width: 110px; height: 110px;
+        }
+    }
+
+    /* 响应式适配 */
+    @media (max-width: 768px) {
+        .transfer-container {
+            flex-direction: column;
+        }
+        .motion-list {
+            flex-direction: row; /* 手机上变成横向排列 */
+            width: 100%;
+            overflow-x: auto;
+            padding-bottom: 20px;
+        }
+        .connector {
+            transform: rotate(90deg); /* 箭头向下 */
+            margin: 10px 0;
+        }
+        .connector.plus {
+            transform: none; /* 加号不用旋转 */
+        }
+    }
+
+    /* --- 矩阵式视频网格 --- */
+    .matrix-container {
+        max-width: 1200px;
+        margin: 0 auto 60px;
+        background: #f8f9fa; /* 浅灰背景 */
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    /* 顶部标题栏 */
+    .matrix-header {
+        display: grid;
+        /* 关键比例：左边1份，右边2.8份，适配你的分辨率差异 */
+        grid-template-columns: 1fr 2.8fr; 
+        gap: 15px;
+        margin-bottom: 15px;
+        text-align: center;
+        font-weight: 700;
+        color: #2c3e50;
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* 视频网格主体 */
+    .matrix-grid {
+        display: grid;
+        grid-template-columns: 1fr 2.8fr; /* 保持和标题一样的比例 */
+        gap: 15px; /* 视频之间的间距 */
+        align-items: center; /* 垂直居中 */
+    }
+
+    /* 单个视频容器 */
+    .matrix-cell {
+        position: relative;
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        background: #000;
+        line-height: 0; /* 消除视频底部的微小空隙 */
+    }
+
+    .matrix-cell video {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* 视频左上角的序号标签 (Case 1, Case 2...) */
+    .case-label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #3498db;
+        color: white;
+        font-size: 0.8rem;
+        padding: 4px 8px;
+        border-bottom-right-radius: 6px;
+        font-weight: 600;
+        z-index: 2;
+    }
+
+    /* 响应式：手机端变成单列 */
+    @media (max-width: 768px) {
+        .matrix-header { display: none; } /* 手机上隐藏表头 */
+        .matrix-grid {
+            grid-template-columns: 1fr; /* 单列 */
+            gap: 30px;
+        }
+        /* 手机上给每个宽视频下面加个分割线 */
+        .matrix-cell:nth-child(even) {
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+    }
+
+    </style>
+</head>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const track = document.getElementById('track');
+            const slides = Array.from(track.children);
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            
+            let currentIndex = 0;
+
+            // 更新滑块位置的函数
+            const updateSlidePosition = () => {
+                const slideWidth = slides[0].getBoundingClientRect().width;
+                track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+            };
+
+            // 下一张
+            nextBtn.addEventListener('click', () => {
+                currentIndex++;
+                if (currentIndex >= slides.length) {
+                    currentIndex = 0; // 循环回到第一张
+                }
+                updateSlidePosition();
+            });
+
+            // 上一张
+            prevBtn.addEventListener('click', () => {
+                currentIndex--;
+                if (currentIndex < 0) {
+                    currentIndex = slides.length - 1; // 循环跳到最后一张
+                }
+                updateSlidePosition();
+            });
+
+            // 窗口大小改变时重新计算位置（保持响应式）
+            window.addEventListener('resize', updateSlidePosition);
+        });
+    </script>
+
+<!-- 引入 model-viewer 组件 -->
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // ================= 配置区域 =================
+        // 在这里把你的视频和模型一一对应填进去
+        const dataList = [
+            {
+                video: './Project Page/real_1_64f.mp4',
+                model: './Project Page/real1.glb',
+            },
+            {
+                video: './Project Page/dance1.mp4',
+                model: './Project Page/dance1.glb',
+            },
+            {
+                video: './Project Page/dance3.mp4',
+                model: './Project Page/dance3.glb',
+            },
+            {
+                video: './Project Page/dog_65.mp4',
+                model: './Project Page/dog.glb',
+            }
+        ];
+        // ===========================================
+
+        let currentIndex = 0;
+
+        const videoEl = document.getElementById('compVideo');
+        const modelEl = document.getElementById('compModel');
+        const captionEl = document.getElementById('compCaption');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        const progressBar = document.getElementById('comp-progress');
+
+        // 更新内容的函数
+        function updateContent(index) {
+            const item = dataList[index];
+            
+            // 1. 更新视频
+            videoEl.src = item.video;
+            // 重新加载并播放视频
+            videoEl.load(); 
+            videoEl.play().catch(e => {/* 忽略自动播放限制错误 */});
+
+            // 2. 更新模型
+            // model-viewer 会自动处理旧模型的卸载
+            modelEl.src = item.model;
+            // 如果你有对应的封面图，可以在这里更新 modelEl.poster
+
+            // 3. 更新标题
+            captionEl.textContent = item.title;
+        }
+
+        // 按钮事件
+        btnPrev.addEventListener('click', () => {
+            currentIndex--;
+            if (currentIndex < 0) currentIndex = dataList.length - 1;
+            updateContent(currentIndex);
+        });
+
+        btnNext.addEventListener('click', () => {
+            currentIndex++;
+            if (currentIndex >= dataList.length) currentIndex = 0;
+            updateContent(currentIndex);
+        });
+
+        // 3D模型加载进度条逻辑
+        modelEl.addEventListener('progress', (event) => {
+            const percentage = event.detail.totalProgress * 100;
+            progressBar.style.width = `${percentage}%`;
+        });
+        
+        // 初始化加载第一项
+        updateContent(0);
+    });
+</script>
+
+
+<body>
+
+    <div class="container">
+        
+        <!-- HEADER -->
+        <header>
+            <!-- <div class="conference-info">SIGGRAPH 202X (Conference Proceedings)</div> -->
+            <div class="title-group">
+                <img src="./Project Page/logo.png" alt="R-DMesh Logo" class="project-logo">
+                <h1>R-DMesh: Video-Guided 3D Animation via Rectified Dynamic Mesh Flow</h1>
+            </div>
+            <!-- 替换上面的标题为你的真实论文标题 -->
+
+            <!-- <div class="authors">
+                <a href="#">San Zhang</a><sup>1</sup>,
+                <a href="#">Si Li</a><sup>1</sup>,
+                <a href="#">Wu Wang</a><sup>2</sup>,
+                <a href="#">Liu Zhao</a><sup>1,2</sup>
+            </div>
+
+            <div class="affiliations">
+                <span><sup>1</sup>University of Graphics</span>
+                <span><sup>2</sup>Tech Research Lab</span>
+            </div> -->
+
+            <div class="link-buttons">
+                <a href="#" class="btn"><i class="fas fa-file-pdf"></i> Paper</a>
+                <a href="#" class="btn"><i class="fab fa-arxiv"></i> arXiv</a>
+                <a href="#" class="btn"><i class="fab fa-github"></i> Code</a>
+                <a href="#" class="btn"><i class="fas fa-database"></i> Data</a>
+            </div>
+        </header>
+
+        <!-- TEASER -->
+        <section class="teaser">
+            <div class="teaser-media">
+                
+                <!-- Replace the div below with your video tag: -->
+                <video autoplay loop muted playsinline width="100%">
+                    <source src="./Project Page/teaser_mp4.mp4" type="video/mp4">
+                </video>
+               
+                <!-- <div>[Teaser Video / GIF Placeholder]</div> -->
+            </div>
+            <p class="teaser-caption">
+                <strong>R-DMesh</strong> generates high-fidelity 4D sequences under video guidance, while enabling applications like: pose/motion retargeting, and holistic 4D generation.
+            </p>
+        </section>
+
+        <!-- ABSTRACT -->
+        <section class="abstract-section">
+            <h2>Abstract</h2>
+            <p class="abstract-text">
+                Video-guided 3D animation holds immense potential for content creation, offering intuitive and precise control over dynamic assets. However, practical deployment faces a critical yet frequently overlooked hurdle: the pose misalignment dilemma. In real-world scenarios, the initial pose of a user-provided static mesh rarely aligns with the starting frame of a reference video. Naively forcing a mesh to follow a mismatched trajectory inevitably leads to severe geometric distortion or animation failure. To address this, we present Rectified Dynamic Mesh (R-DMesh), a unified framework designed to generate high-fidelity 4D meshes that are ``rectified'' to align with video context. Unlike standard motion transfer approaches, our method introduces a novel VAE that explicitly disentangles the input into a conditional base mesh, relative motion trajectories, and a crucial rectification jump offset. This offset is learned to automatically transform the arbitrary pose of the input mesh to match the video's initial state before animation begins. We process these components via a Triflow Attention mechanism, which leverages vertex-wise geometric features to modulate the three orthogonal flows, ensuring physical consistency and local rigidity during the rectification and animation process. For generation, we employ a Rectified Flow-based Diffusion Transformer conditioned on pre-trained video latents, effectively transferring rich spatio-temporal priors to the 3D domain. To support this task, we construct Video-RDMesh, a large-scale dataset of over 500k dynamic mesh sequences specifically curated to simulate pose misalignment. Extensive experiments demonstrate that R-DMesh not only solves the alignment problem but also enables robust downstream applications, including pose retargeting and holistic 4D generation.
+            </p>
+        </section>
+
+        <!-- METHOD -->
+        <section>
+            <h2>Method Overview</h2>
+            <div class="pipeline-img">
+                <img src="./Project Page/pipeline.png" alt="Method Pipeline">
+                <!-- <div>[Pipeline Image Placeholder]</div> -->
+            </div>
+            <p style="text-align: justify; color: #555;">
+                <strong>R-DMesh</strong> framework comprises two primary components: (a) R-DMesh VAE: Designed for the compression and reconstruction of mesh sequences involving first-frame jumps. It explicitly models the jump between the conditional mesh and the first frame of the subsequent sequence, as well as the relative trajectory distribution of the subsequent continuous frames, to simulate pose changes and motion distributions, respectively. (b) R-DMesh RF Model: A jump-relative trajectory distribution learning network utilizing the DiT architecture. The video features are extracted using the video generation model (Wan2.2-TI2V-5B).
+            </p>
+        </section>
+
+        <!-- RESULTS / DEMOS (Carousel Version) -->
+        <section>
+            <h2>Results</h2>
+            
+            <p style="text-align: center; margin-bottom: 30px;">
+                Video-Guided 3D Animation Results (Click arrows to switch). We showcase our results on rendered video to demonstrate the alignment between the generated and GT 4D sequences.
+            </p>
+
+            <!-- Carousel Container -->
+            <div class="carousel-container">
+                <div class="carousel-track" id="track">
+                    
+                    <!-- Slide 1 -->
+                    <div class="carousel-slide">
+                        <video autoplay loop muted playsinline>
+                            <source src="./Project Page/results1.mov" type="video/mp4">
+                        </video>
+                        <!-- <div class="carousel-caption"></div> -->
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="carousel-slide">
+                        <video autoplay loop muted playsinline>
+                            <!-- 替换为你的第二个视频路径 -->
+                            <source src="./Project Page/results2.mov" type="video/mp4"> 
+                        </video>
+                        <!-- <div class="carousel-caption"></div> -->
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="carousel-slide">
+                        <video autoplay loop muted playsinline>
+                            <!-- 替换为你的第三个视频路径 -->
+                            <source src="./Project Page/results3.mov" type="video/mp4">
+                        </video>
+                        <!-- <div class="carousel-caption"></div> -->
+                    </div>
+
+                </div>
+
+                
+
+                <!-- Navigation Buttons -->
+                <button class="carousel-btn prev-btn" id="prevBtn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-btn next-btn" id="nextBtn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        
+        <section>
+            <h2>Comparison</h2>
+            <p style="text-align: center; margin-bottom: 30px;">
+                Comparison with state-of-the-art methods on video-to-4D generation.
+            </p>
+
+            <!-- 单个视频容器 -->
+            <div class="single-result-container">
+                <video autoplay loop muted playsinline>
+                    <!-- 替换为你的视频路径 -->
+                    <source src="./Project Page/comp.mov" type="video/mp4">
+                </video>
+                
+                <!-- 底部文字说明 (复用样式)
+                <div class="carousel-caption">
+                    High-fidelity 4D generation result
+                </div> -->
+            </div>
+        </section>
+
+        <section>
+            <h2>Holistic 4D Generation Application</h2>
+            <p style="text-align: center; margin-bottom: 30px;">
+                Input Video (Left) &rarr; Generated 4D Mesh (Right). Combined with a 3D generation model (Hunyuan3d), R-DMesh is capable of turning a in-the-wild video into high-quality 4D assets. 
+            </p>
+
+            <div class="comparison-container">
+                <!-- 切换按钮 -->
+                <button class="nav-btn nav-prev" id="btnPrev"><i class="fas fa-chevron-left"></i></button>
+                <button class="nav-btn nav-next" id="btnNext"><i class="fas fa-chevron-right"></i></button>
+
+                <div class="comparison-content">
+                    
+                    <!-- 左侧：视频 -->
+                    <div class="comp-video-box">
+                        <video id="compVideo" autoplay loop muted playsinline>
+                            <!-- 默认加载第一个视频 -->
+                            <source src="./Project Page/real_1_64f.mp4" type="video/mp4">
+                        </video>
+                    </div>
+
+                    <!-- 中间：美观的箭头 -->
+                    <div class="comp-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+
+                    <!-- 右侧：3D Viewer -->
+                    <div class="comp-model-box">
+                        <model-viewer 
+                            id="compModel"
+                            class="comp-viewer"
+                            src="./Project Page/real1.glb" 
+                            shadow-intensity="1"
+                            camera-controls
+                            autoplay>
+                            
+                            <!-- 加载进度条 -->
+                            <div class="progress-bar" slot="progress-bar">
+                                <div class="update-bar" id="comp-progress"></div>
+                            </div>
+                        </model-viewer>
+                    </div>
+                </div>
+
+                <!-- 底部说明文字 -->
+                <div class="comp-caption" id="compCaption">
+                    Dance1
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Pose Retargeting Application</h2>
+            <p style="text-align: center; margin-bottom: 40px;">
+                Thanks to our successful jump offset distribution modeling. R-DMesh enables pose retarget/transfer applications. Please select a pose image from the list to drive the character.
+            </p>
+
+            <div class="transfer-container">
+                
+                <!-- 左侧：静态源模型 (Source) -->
+                <div class="model-box">
+                    <model-viewer 
+                        src="./Project Page/stormtrooper.glb" 
+                        alt="Static Source Model"
+                        shadow-intensity="1"
+                        camera-controls>
+                        <!-- 左上角标签 -->
+                        <div style="position:absolute; top:10px; left:10px; background:rgba(0,0,0,0.7); color:white; padding:4px 8px; border-radius:4px; font-size:12px;">
+                            Source Mesh
+                        </div>
+                    </model-viewer>
+                </div>
+
+                <!-- 连接符：加号 -->
+                <div class="connector plus">
+                    <i class="fas fa-plus"></i>
+                </div>
+
+                <!-- 中间：动作选择列表 (Motion List) -->
+                <div class="motion-list" id="motionList">
+                    <!-- 选项 1 (默认选中) -->
+                    <div class="motion-item active" onclick="selectMotion(0)">
+                        <img src="./Project Page/4.jpg" alt="Pose1">
+                    </div>
+                    
+                    <!-- 选项 2 -->
+                    <div class="motion-item" onclick="selectMotion(1)">
+                        <img src="./Project Page/0000.png" alt="Pose2">
+                    </div>
+
+                    <!-- 选项 3 -->
+                    <div class="motion-item" onclick="selectMotion(2)">
+                        <img src="./Project Page/0005.png" alt="Pose3">
+                    </div>
+
+                    <div class="motion-item" onclick="selectMotion(3)">
+                        <img src="./Project Page/digimon.png" alt="Pose4">
+                    </div>
+
+                    <div class="motion-item" onclick="selectMotion(4)">
+                        <img src="./Project Page/skull.png" alt="Pose5">
+                    </div>
+                </div>
+
+                <!-- 连接符：箭头 -->
+                <div class="connector arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <!-- 右侧：动态结果模型 (Result) -->
+                <div class="model-box">
+                    <model-viewer 
+                        id="resultViewer"
+                        src="./Project Page/4.glb" 
+                        poster="./Project Page/loading_poster.jpg"
+                        alt="Animated Result"
+                        shadow-intensity="1"
+                        camera-controls
+                        autoplay>
+                        
+                        <!-- 加载进度条 -->
+                        <div class="progress-bar" slot="progress-bar">
+                            <div class="update-bar" id="transfer-progress"></div>
+                        </div>
+
+                        <!-- 左上角标签 -->
+                        <div style="position:absolute; top:10px; left:10px; background:#3498db; color:white; padding:4px 8px; border-radius:4px; font-size:12px;">
+                            Generated Mesh
+                        </div>
+                    </model-viewer>
+                </div>
+
+            </div>
+        </section>
+
+        
+
+        <!-- 脚本放在 Section 之后，确保元素已存在 -->
+        <script>
+            // 1. 定义数据
+            const motions = [
+                { id: 0, glb: './Project Page/4.glb' },
+                { id: 1, glb: './Project Page/0000.glb' },
+                { id: 2, glb: './Project Page/0005.glb' },
+                { id: 3, glb: './Project Page/tpose.glb' },
+                { id: 4, glb: './Project Page/skull_pose.glb' }
+            ];
+
+            // 2. 获取 DOM 元素
+            const resultViewer = document.getElementById('resultViewer');
+            const transferProgress = document.getElementById('transfer-progress');
+            const motionItems = document.querySelectorAll('.motion-item');
+
+            // 3. 状态变量：记录当前选中的索引，默认为 0
+            let currentMotionIndex = 0;
+
+            // 4. 定义切换函数
+            window.selectMotion = function(index) {
+                // --- 核心修复：直接比较索引 ---
+                // 如果点击的正是当前已选中的，且模型没有丢失，则不进行重复加载
+                // 但为了保险起见（比如用户想强制重置动画），我们可以去掉 return，或者只在 src 确实相同时 return
+                // 这里我们使用最稳健的逻辑：只要点击，就执行 UI 更新；如果索引不同，则切换模型。
+                
+                if (index === currentMotionIndex) {
+                    // 如果你希望点击已选中的也能重播动画，请注释掉下面这行
+                    // return; 
+                }
+
+                // 更新当前索引
+                currentMotionIndex = index;
+
+                // --- 逻辑 A: 切换模型 ---
+                const selectedData = motions[index];
+                if (selectedData && resultViewer) {
+                    // 直接赋值，model-viewer 内部会自动处理是否需要重新加载
+                    resultViewer.src = selectedData.glb;
+                    
+                    // 如果需要重置播放进度到 0
+                    resultViewer.currentTime = 0;
+                }
+
+                // --- 逻辑 B: 更新 UI 样式 ---
+                motionItems.forEach((item, idx) => {
+                    if (idx === index) {
+                        item.classList.add('active');
+                        
+                        // --- 逻辑 C: 自动滚动居中 ---
+                        item.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center',
+                            inline: 'center'
+                        });
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            };
+
+            // 5. 进度条监听
+            if (resultViewer) {
+                resultViewer.addEventListener('progress', (event) => {
+                    const percentage = event.detail.totalProgress * 100;
+                    if (transferProgress) {
+                        transferProgress.style.width = `${percentage}%`;
+                        // 加载完成后隐藏进度条（可选）
+                        if (percentage >= 100) {
+                            setTimeout(() => { transferProgress.style.width = '0%'; }, 500);
+                        }
+                    }
+                });
+            }
+        </script>
+
+        <section>
+            <h2>Motion Retargeting Application</h2>
+            <p style="text-align: center; margin-bottom: 30px;">
+                We demonstrate the robustness of R-DMesh on motion retargeting/transfer application across various motion types. <br>
+                R-DMesh generalizes well under rendered/generated/in-the-wild videos conditions.
+            </p>
+
+            <div class="matrix-container">
+                
+                <!-- 表头 -->
+                <div class="matrix-header">
+                    <div>Reference Input</div>
+                    <div>Generated 4D Output</div>
+                </div>
+
+                <!-- 网格内容 -->
+                <div class="matrix-grid">
+                    
+                    <!-- Row 1 -->
+                    <div class="matrix-cell">
+                        <div class="case-label">Rendered</div>
+                        <video autoplay loop muted playsinline>
+                            <source src="./Project Page/mt_render_ref.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="matrix-cell">
+                        <video autoplay loop muted playsinline>
+                            <source src="./Project Page/mt_render_new.mp4" type="video/mp4">
+                        </video>
+                    </div>
+
+                    <!-- Row 2 -->
+                    <div class="matrix-cell">
+                        <div class="case-label">Generated</div>
+                        <video autoplay loop muted playsinline>
+                            <source src="./Project Page/mt_gen_ref.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="matrix-cell">
+                        <video autoplay loop muted playsinline>
+                            <source src="./Project Page/mt_gen.mp4" type="video/mp4">
+                        </video>
+                    </div>
+
+                    <!-- Row 3 -->
+                    <div class="matrix-cell">
+                        <div class="case-label">In-the-Wild</div>
+                        <video autoplay loop muted playsinline>
+                            <source src="./Project Page/mt_real_ref.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="matrix-cell">
+                        <video autoplay loop muted playsinline>
+                            <source src="./Project Page/mt_real.mp4" type="video/mp4">
+                        </video>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const videos = document.querySelectorAll('.matrix-grid video');
+                
+                // 简单的同步逻辑：当第一个视频循环时，强制所有视频对齐时间
+                if(videos.length > 0) {
+                    const masterVideo = videos[0];
+                    
+                    masterVideo.addEventListener('play', () => {
+                        videos.forEach(v => {
+                            if(v !== masterVideo) v.play();
+                        });
+                    });
+                    
+                    // 每隔一段时间校准一次，防止不同步
+                    setInterval(() => {
+                        if (!masterVideo.paused) {
+                            videos.forEach(v => {
+                                // 如果误差超过 0.1 秒，则强制同步
+                                if (Math.abs(v.currentTime - masterVideo.currentTime) > 0.1) {
+                                    v.currentTime = masterVideo.currentTime;
+                                }
+                            });
+                        }
+                    }, 1000);
+                }
+            });
+        </script>
+
+        <!-- BIBTEX -->
+        <!-- <section>
+            <h2>Citation</h2>
+            <pre class="bibtex-section"><code>@inproceedings{zhang202xvideoguided,
+  title={High-Fidelity Video-Guided Mesh Animation via Neural Deformation Fields},
+  author={Zhang, San and Li, Si and Wang, Wu and Zhao, Liu},
+  booktitle={SIGGRAPH Conference Proceedings},
+  year={202X},
+  publisher={ACM}
+}</code></pre>
+        </section> -->
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>
+            This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+            <br>
+            Template design inspired by <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+        </p>
+    </footer>
+
+</body>
+</html>
