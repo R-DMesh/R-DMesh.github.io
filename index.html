@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;600&display=swap" rel="stylesheet">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="./Project Page/rdmesh-logo.png">
+<link rel="icon" type="image/png" href="./assets/rdmesh-logo.png">
 
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -876,20 +876,20 @@
         // 在这里把你的视频和模型一一对应填进去
         const dataList = [
             {
-                video: './Project Page/real_1_64f.mp4',
-                model: './Project Page/real1.glb',
+video: './assets/real_1_64f.mp4',
+                model: './assets/real1.glb',
             },
             {
-                video: './Project Page/dance1.mp4',
-                model: './Project Page/dance1.glb',
+video: './assets/dance1.mp4',
+                model: './assets/dance1.glb',
             },
             {
-                video: './Project Page/dance3.mp4',
-                model: './Project Page/dance3.glb',
+video: './assets/dance3.mp4',
+                model: './assets/dance3.glb',
             },
             {
-                video: './Project Page/dog_65.mp4',
-                model: './Project Page/dog.glb',
+video: './assets/dog_65.mp4',
+                model: './assets/dog.glb',
             }
         ];
         // ===========================================
@@ -955,7 +955,7 @@
         <header>
             <!-- <div class="conference-info">SIGGRAPH 202X (Conference Proceedings)</div> -->
             <div class="title-group">
-                <img src="./Project Page/logo.png" alt="R-DMesh Logo" class="project-logo">
+<img src="./assets/logo.png" alt="R-DMesh Logo" class="project-logo">
                 <h1>R-DMesh: Video-Guided 3D Animation via Rectified Dynamic Mesh Flow</h1>
             </div>
             <!-- 替换上面的标题为你的真实论文标题 -->
@@ -986,7 +986,7 @@
                 
                 <!-- Replace the div below with your video tag: -->
                 <video autoplay loop muted playsinline width="100%">
-                    <source src="./Project Page/teaser_mp4.mp4" type="video/mp4">
+<source src="./assets/teaser_mp4.mp4" type="video/mp4">
                 </video>
                
                 <!-- <div>[Teaser Video / GIF Placeholder]</div> -->
@@ -1008,7 +1008,7 @@
         <section>
             <h2>Method Overview</h2>
             <div class="pipeline-img">
-                <img src="./Project Page/pipeline.png" alt="Method Pipeline">
+<img src="./assets/pipeline.png" alt="Method Pipeline">
                 <!-- <div>[Pipeline Image Placeholder]</div> -->
             </div>
             <p style="text-align: justify; color: #555;">
@@ -1031,7 +1031,7 @@
                     <!-- Slide 1 -->
                     <div class="carousel-slide">
                         <video autoplay loop muted playsinline>
-                            <source src="./Project Page/results1.mov" type="video/mp4">
+<source src="./assets/results1.mov" type="video/mp4">
                         </video>
                         <!-- <div class="carousel-caption"></div> -->
                     </div>
@@ -1040,7 +1040,7 @@
                     <div class="carousel-slide">
                         <video autoplay loop muted playsinline>
                             <!-- 替换为你的第二个视频路径 -->
-                            <source src="./Project Page/results2.mov" type="video/mp4"> 
+<source src="./assets/results2.mov" type="video/mp4">
                         </video>
                         <!-- <div class="carousel-caption"></div> -->
                     </div>
@@ -1049,7 +1049,7 @@
                     <div class="carousel-slide">
                         <video autoplay loop muted playsinline>
                             <!-- 替换为你的第三个视频路径 -->
-                            <source src="./Project Page/results3.mov" type="video/mp4">
+<source src="./assets/results3.mov" type="video/mp4">
                         </video>
                         <!-- <div class="carousel-caption"></div> -->
                     </div>
@@ -1077,7 +1077,7 @@
             <div class="single-result-container">
                 <video autoplay loop muted playsinline>
                     <!-- 替换为你的视频路径 -->
-                    <source src="./Project Page/comp.mov" type="video/mp4">
+<source src="./assets/comp.mov" type="video/mp4">
                 </video>
                 
                 <!-- 底部文字说明 (复用样式)
@@ -1104,7 +1104,7 @@
                     <div class="comp-video-box">
                         <video id="compVideo" autoplay loop muted playsinline>
                             <!-- 默认加载第一个视频 -->
-                            <source src="./Project Page/real_1_64f.mp4" type="video/mp4">
+<source src="./assets/real_1_64f.mp4" type="video/mp4">
                         </video>
                     </div>
 
@@ -1118,9 +1118,8 @@
                         <model-viewer 
                             id="compModel"
                             class="comp-viewer"
-                            src="./Project Page/real1.glb" 
-                            shadow-intensity="1"
-                            camera-controls
+src="./assets/real1.glb" 
+                            shadow-intensity                            camera-controls
                             autoplay>
                             
                             <!-- 加载进度条 -->
@@ -1149,7 +1148,7 @@
                 <!-- 左侧：静态源模型 (Source) -->
                 <div class="model-box">
                     <model-viewer 
-                        src="./Project Page/stormtrooper.glb" 
+src="./assets/stormtrooper.glb" 
                         alt="Static Source Model"
                         shadow-intensity="1"
                         camera-controls>
@@ -1169,25 +1168,25 @@
                 <div class="motion-list" id="motionList">
                     <!-- 选项 1 (默认选中) -->
                     <div class="motion-item active" onclick="selectMotion(0)">
-                        <img src="./Project Page/4.jpg" alt="Pose1">
+<img src="./assets/4.jpg" alt="Pose1">
                     </div>
                     
                     <!-- 选项 2 -->
                     <div class="motion-item" onclick="selectMotion(1)">
-                        <img src="./Project Page/0000.png" alt="Pose2">
+<img src="./assets/0000.png" alt="Pose2">
                     </div>
 
                     <!-- 选项 3 -->
                     <div class="motion-item" onclick="selectMotion(2)">
-                        <img src="./Project Page/0005.png" alt="Pose3">
+<img src="./assets/0005.png" alt="Pose3">
                     </div>
 
                     <div class="motion-item" onclick="selectMotion(3)">
-                        <img src="./Project Page/digimon.png" alt="Pose4">
+<img src="./assets/digimon.png" alt="Pose4">
                     </div>
 
                     <div class="motion-item" onclick="selectMotion(4)">
-                        <img src="./Project Page/skull.png" alt="Pose5">
+<img src="./assets/skull.png" alt="Pose5">
                     </div>
                 </div>
 
@@ -1200,8 +1199,8 @@
                 <div class="model-box">
                     <model-viewer 
                         id="resultViewer"
-                        src="./Project Page/4.glb" 
-                        poster="./Project Page/loading_poster.jpg"
+src="./assets/4.glb" 
+                        poster="./assets/loading_poster.jpg"
                         alt="Animated Result"
                         shadow-intensity="1"
                         camera-controls
@@ -1228,11 +1227,11 @@
         <script>
             // 1. 定义数据
             const motions = [
-                { id: 0, glb: './Project Page/4.glb' },
-                { id: 1, glb: './Project Page/0000.glb' },
-                { id: 2, glb: './Project Page/0005.glb' },
-                { id: 3, glb: './Project Page/tpose.glb' },
-                { id: 4, glb: './Project Page/skull_pose.glb' }
+{ id: 0, glb: './assets/4.glb' },
+                { id: 1, glb: './assets/0000.glb' },
+                { id: 2, glb: './assets/0005.glb' },
+                { id: 3, glb: './assets/tpose.glb' },
+                { id: 4, glb: './assets/skull_pose.glb' }
             ];
 
             // 2. 获取 DOM 元素
@@ -1322,12 +1321,12 @@
                     <div class="matrix-cell">
                         <div class="case-label">Rendered</div>
                         <video autoplay loop muted playsinline>
-                            <source src="./Project Page/mt_render_ref.mp4" type="video/mp4">
+<source src="./assets/mt_render_ref.mp4" type="video/mp4">
                         </video>
                     </div>
                     <div class="matrix-cell">
                         <video autoplay loop muted playsinline>
-                            <source src="./Project Page/mt_render_new.mp4" type="video/mp4">
+<source src="./assets/mt_render_new.mp4" type="video/mp4">
                         </video>
                     </div>
 
@@ -1335,12 +1334,12 @@
                     <div class="matrix-cell">
                         <div class="case-label">Generated</div>
                         <video autoplay loop muted playsinline>
-                            <source src="./Project Page/mt_gen_ref.mp4" type="video/mp4">
+<source src="./assets/mt_gen_ref.mp4" type="video/mp4">
                         </video>
                     </div>
                     <div class="matrix-cell">
                         <video autoplay loop muted playsinline>
-                            <source src="./Project Page/mt_gen.mp4" type="video/mp4">
+<source src="./assets/mt_gen.mp4" type="video/mp4">
                         </video>
                     </div>
 
@@ -1348,12 +1347,12 @@
                     <div class="matrix-cell">
                         <div class="case-label">In-the-Wild</div>
                         <video autoplay loop muted playsinline>
-                            <source src="./Project Page/mt_real_ref.mp4" type="video/mp4">
+<source src="./assets/mt_real_ref.mp4" type="video/mp4">
                         </video>
                     </div>
                     <div class="matrix-cell">
                         <video autoplay loop muted playsinline>
-                            <source src="./Project Page/mt_real.mp4" type="video/mp4">
+<source src="./assets/mt_real.mp4" type="video/mp4">
                         </video>
                     </div>
 
