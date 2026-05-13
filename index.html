@@ -843,12 +843,14 @@
 
             <div class="link-buttons">
                 <a href="#" class="btn"><i class="fas fa-file-pdf"></i> Paper</a>
-                <a href="#" class="btn"><i class="fab fa-arxiv"></i> ArXiv</a>
+                <!-- 使用 fa-file-alt 替代不存在的 arxiv 图标 -->
+                <a href="#" class="btn"><i class="fas fa-file-alt"></i> arXiv</a>
                 <a href="https://github.com/Tencent-Hunyuan/R-DMesh" class="btn"><i class="fab fa-github"></i> Code</a>
-                <!-- 修改后的 Weights 和 Video 按钮 -->
-                <a href="https://huggingface.co/JarrentWu/R-DMesh" class="btn"><span style="margin-right: 6px; font-size: 1.1em;">🤗</span> Weights</a>
+                <!-- 使用 CSS 滤镜将 Emoji 变成纯白色 -->
+                <a href="https://huggingface.co/JarrentWu/R-DMesh" class="btn"><span style="margin-right: 6px; font-size: 1.1em; filter: grayscale(100%) brightness(200%);">🤗</span> Weights</a>
                 <a href="https://www.youtube.com/watch?v=xBrMjPnH3_w" class="btn"><i class="fab fa-youtube"></i> Video</a>
             </div>
+                
         </header>
 
         <!-- TEASER -->
