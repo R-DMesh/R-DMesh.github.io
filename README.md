@@ -22,9 +22,11 @@ Video-guided 3D animation holds immense potential for content creation, offering
 If you find this work useful, please consider citing:
 
 ```bibtex
-@article{rdmesh2026,
+@inproceedings{wu2026rdmesh,
   title={R-DMesh: Video-Guided 3D Animation via Rectified Dynamic Mesh Flow},
-  author={},
-  journal={},
-  year={2026}
+  author={Wu, Zijie and Xu, Lixin and Jiang, Puhua and Liu, Sicong and Guo, Chunchao and Bai, Xiang},
+  booktitle={ACM SIGGRAPH 2026 Conference Proceedings},
+  year={2026},
+  publisher={ACM}
 }
+
