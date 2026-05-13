@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;600&display=swap" rel="stylesheet">
     
     <!-- Favicon -->
-<link rel="icon" type="image/png" href="./assets/rdmesh-logo.png">
+    <link rel="icon" type="image/png" href="./assets/rdmesh-logo.png">
 
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -125,15 +125,16 @@
 
         .conference-info {
             font-family: 'Source Serif 4', serif;
-            font-size: 1.2rem;
-            color: #666;
+            font-size: 1.4rem;
+            color: #e74c3c; /* 使用稍微醒目的颜色突出会议信息 */
             margin-bottom: 20px;
             font-weight: 600;
         }
 
         .authors {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            margin-top: 20px;
         }
 
         .authors a {
@@ -143,13 +144,14 @@
         }
 
         .affiliations {
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: #666;
             margin-bottom: 30px;
         }
         
         .affiliations span {
             margin: 0 10px;
+            display: inline-block;
         }
 
         /* Button Links */
@@ -231,28 +233,12 @@
         }
 
         /* Method/Pipeline */
-        /* .pipeline-img {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #eee;
-            Placeholder style
-            background: #eee;
-            min-height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-        } */
-
-        /* 找到原来的 .pipeline-img，替换为以下内容 */
         .pipeline-img {
             width: 100%;
             text-align: center; /* 让图片居中显示 */
             margin-bottom: 15px;
         }
 
-        /* 新增针对内部 img 标签的样式 */
         .pipeline-img img {
             max-width: 100%;    /* 限制最大宽度不超过父容器 */
             height: auto;       /* 高度自动，保持长宽比 */
@@ -260,8 +246,6 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* 轻微阴影，增加层次感 */
             border: 1px solid #eee; /* 边框 */
         }
-
-
 
         /* Results Grid */
         .results-grid {
@@ -275,12 +259,9 @@
             text-align: center;
         }
 
-        /* 1. 修改 .result-media，去掉占位用的背景色，保留布局属性 */
         .result-media {
             width: 100%;
             border-radius: 8px;
-            /* background: #eee;  <-- 删除或注释掉这个灰色背景，因为现在有真视频了 */
-            /* aspect-ratio: 16/9; <-- 如果你的视频比例不统一，建议注释掉这一行，让高度自适应 */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -289,7 +270,6 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* 可选：加点阴影 */
         }
 
-        /* 2. 新增：强制视频适应容器宽度 */
         .result-media video {
             width: 100%;
             height: auto;   /* 高度自动，保持比例 */
@@ -306,6 +286,7 @@
             font-family: 'Courier New', Courier, monospace;
             font-size: 0.9rem;
             border-left: 5px solid var(--accent-color);
+            text-align: left;
         }
 
         /* Footer */
@@ -829,167 +810,52 @@
     </style>
 </head>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const track = document.getElementById('track');
-            const slides = Array.from(track.children);
-            const nextBtn = document.getElementById('nextBtn');
-            const prevBtn = document.getElementById('prevBtn');
-            
-            let currentIndex = 0;
-
-            // 更新滑块位置的函数
-            const updateSlidePosition = () => {
-                const slideWidth = slides[0].getBoundingClientRect().width;
-                track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-            };
-
-            // 下一张
-            nextBtn.addEventListener('click', () => {
-                currentIndex++;
-                if (currentIndex >= slides.length) {
-                    currentIndex = 0; // 循环回到第一张
-                }
-                updateSlidePosition();
-            });
-
-            // 上一张
-            prevBtn.addEventListener('click', () => {
-                currentIndex--;
-                if (currentIndex < 0) {
-                    currentIndex = slides.length - 1; // 循环跳到最后一张
-                }
-                updateSlidePosition();
-            });
-
-            // 窗口大小改变时重新计算位置（保持响应式）
-            window.addEventListener('resize', updateSlidePosition);
-        });
-    </script>
-
-<!-- 引入 model-viewer 组件 -->
-<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // ================= 配置区域 =================
-        // 在这里把你的视频和模型一一对应填进去
-        const dataList = [
-            {
-video: './assets/real_1_64f.mp4',
-                model: './assets/real1.glb',
-            },
-            {
-video: './assets/dance1.mp4',
-                model: './assets/dance1.glb',
-            },
-            {
-video: './assets/dance3.mp4',
-                model: './assets/dance3.glb',
-            },
-            {
-video: './assets/dog_65.mp4',
-                model: './assets/dog.glb',
-            }
-        ];
-        // ===========================================
-
-        let currentIndex = 0;
-
-        const videoEl = document.getElementById('compVideo');
-        const modelEl = document.getElementById('compModel');
-        const captionEl = document.getElementById('compCaption');
-        const btnPrev = document.getElementById('btnPrev');
-        const btnNext = document.getElementById('btnNext');
-        const progressBar = document.getElementById('comp-progress');
-
-        // 更新内容的函数
-        function updateContent(index) {
-            const item = dataList[index];
-            
-            // 1. 更新视频
-            videoEl.src = item.video;
-            // 重新加载并播放视频
-            videoEl.load(); 
-            videoEl.play().catch(e => {/* 忽略自动播放限制错误 */});
-
-            // 2. 更新模型
-            // model-viewer 会自动处理旧模型的卸载
-            modelEl.src = item.model;
-            // 如果你有对应的封面图，可以在这里更新 modelEl.poster
-
-            // 3. 更新标题
-            captionEl.textContent = item.title;
-        }
-
-        // 按钮事件
-        btnPrev.addEventListener('click', () => {
-            currentIndex--;
-            if (currentIndex < 0) currentIndex = dataList.length - 1;
-            updateContent(currentIndex);
-        });
-
-        btnNext.addEventListener('click', () => {
-            currentIndex++;
-            if (currentIndex >= dataList.length) currentIndex = 0;
-            updateContent(currentIndex);
-        });
-
-        // 3D模型加载进度条逻辑
-        modelEl.addEventListener('progress', (event) => {
-            const percentage = event.detail.totalProgress * 100;
-            progressBar.style.width = `${percentage}%`;
-        });
-        
-        // 初始化加载第一项
-        updateContent(0);
-    });
-</script>
-
-
 <body>
 
     <div class="container">
         
         <!-- HEADER -->
         <header>
-            <!-- <div class="conference-info">SIGGRAPH 202X (Conference Proceedings)</div> -->
+            <!-- [此处修改] 会议信息 -->
+            <div class="conference-info">SIGGRAPH 2026 </div>
+            
             <div class="title-group">
-<img src="./assets/logo.png" alt="R-DMesh Logo" class="project-logo">
+                <img src="./assets/logo.png" alt="R-DMesh Logo" class="project-logo">
                 <h1>R-DMesh: Video-Guided 3D Animation via Rectified Dynamic Mesh Flow</h1>
             </div>
-            <!-- 替换上面的标题为你的真实论文标题 -->
 
-            <!-- <div class="authors">
-                <a href="#">San Zhang</a><sup>1</sup>,
-                <a href="#">Si Li</a><sup>1</sup>,
-                <a href="#">Wu Wang</a><sup>2</sup>,
-                <a href="#">Liu Zhao</a><sup>1,2</sup>
+            <!-- [此处修改] 作者信息 -->
+            <div class="authors">
+                <a href="https://jarrentwu1031.github.io/">Zijie Wu</a><sup>1,2</sup>,
+                <a href="#">Lixin Xu</a><sup>2</sup>,
+                <a href="#">Puhua Jiang</a><sup>2</sup>,
+                <a href="#">Sicong Liu</a><sup>2</sup>,
+                <a href="#">Chunchao Guo</a><sup>2</sup>,
+                <a href="#">Xiang Bai</a><sup>1</sup>,
             </div>
 
+            <!-- [此处修改] 机构信息 -->
             <div class="affiliations">
-                <span><sup>1</sup>University of Graphics</span>
-                <span><sup>2</sup>Tech Research Lab</span>
-            </div> -->
+                <span><sup>1</sup>Huazhong University of Science and Technology (HUST)</span>
+                <span><sup>2</sup>Tencent Hunyuan</span>
+            </div>
 
             <div class="link-buttons">
                 <a href="#" class="btn"><i class="fas fa-file-pdf"></i> Paper</a>
-                <a href="#" class="btn"><i class="fab fa-arxiv"></i> arXiv</a>
-                <a href="#" class="btn"><i class="fab fa-github"></i> Code</a>
-                <a href="#" class="btn"><i class="fas fa-database"></i> Data</a>
+                <a href="#" class="btn"><i class="fab fa-arxiv"></i> ArXiv</a>
+                <a href="https://github.com/Tencent-Hunyuan/R-DMesh" class="btn"><i class="fab fa-github"></i> Code</a>
+                <!-- 修改后的 Weights 和 Video 按钮 -->
+                <a href="https://huggingface.co/JarrentWu/R-DMesh" class="btn"><span style="margin-right: 6px; font-size: 1.1em;">🤗</span> Weights</a>
+                <a href="https://www.youtube.com/watch?v=xBrMjPnH3_w" class="btn"><i class="fab fa-youtube"></i> Video</a>
             </div>
         </header>
 
         <!-- TEASER -->
         <section class="teaser">
             <div class="teaser-media">
-                
-                <!-- Replace the div below with your video tag: -->
                 <video autoplay loop muted playsinline width="100%">
-<source src="./assets/teaser_mp4.mp4" type="video/mp4">
+                    <source src="./assets/teaser_mp4.mp4" type="video/mp4">
                 </video>
-               
-                <!-- <div>[Teaser Video / GIF Placeholder]</div> -->
             </div>
             <p class="teaser-caption">
                 <strong>R-DMesh</strong> generates high-fidelity 4D sequences under video guidance, while enabling applications like: pose/motion retargeting, and holistic 4D generation.
@@ -1008,8 +874,7 @@ video: './assets/dog_65.mp4',
         <section>
             <h2>Method Overview</h2>
             <div class="pipeline-img">
-<img src="./assets/pipeline.png" alt="Method Pipeline">
-                <!-- <div>[Pipeline Image Placeholder]</div> -->
+                <img src="./assets/pipeline.png" alt="Method Pipeline">
             </div>
             <p style="text-align: justify; color: #555;">
                 <strong>R-DMesh</strong> framework comprises two primary components: (a) R-DMesh VAE: Designed for the compression and reconstruction of mesh sequences involving first-frame jumps. It explicitly models the jump between the conditional mesh and the first frame of the subsequent sequence, as well as the relative trajectory distribution of the subsequent continuous frames, to simulate pose changes and motion distributions, respectively. (b) R-DMesh RF Model: A jump-relative trajectory distribution learning network utilizing the DiT architecture. The video features are extracted using the video generation model (Wan2.2-TI2V-5B).
@@ -1031,32 +896,25 @@ video: './assets/dog_65.mp4',
                     <!-- Slide 1 -->
                     <div class="carousel-slide">
                         <video autoplay loop muted playsinline>
-<source src="./assets/results1.mov" type="video/mp4">
+                            <source src="./assets/results1.mov" type="video/mp4">
                         </video>
-                        <!-- <div class="carousel-caption"></div> -->
                     </div>
 
                     <!-- Slide 2 -->
                     <div class="carousel-slide">
                         <video autoplay loop muted playsinline>
-                            <!-- 替换为你的第二个视频路径 -->
-<source src="./assets/results2.mov" type="video/mp4">
+                            <source src="./assets/results2.mov" type="video/mp4">
                         </video>
-                        <!-- <div class="carousel-caption"></div> -->
                     </div>
 
                     <!-- Slide 3 -->
                     <div class="carousel-slide">
                         <video autoplay loop muted playsinline>
-                            <!-- 替换为你的第三个视频路径 -->
-<source src="./assets/results3.mov" type="video/mp4">
+                            <source src="./assets/results3.mov" type="video/mp4">
                         </video>
-                        <!-- <div class="carousel-caption"></div> -->
                     </div>
 
                 </div>
-
-                
 
                 <!-- Navigation Buttons -->
                 <button class="carousel-btn prev-btn" id="prevBtn">
@@ -1066,6 +924,7 @@ video: './assets/dog_65.mp4',
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
+        </section>
         
         <section>
             <h2>Comparison</h2>
@@ -1076,14 +935,8 @@ video: './assets/dog_65.mp4',
             <!-- 单个视频容器 -->
             <div class="single-result-container">
                 <video autoplay loop muted playsinline>
-                    <!-- 替换为你的视频路径 -->
-<source src="./assets/comp.mov" type="video/mp4">
+                    <source src="./assets/comp.mov" type="video/mp4">
                 </video>
-                
-                <!-- 底部文字说明 (复用样式)
-                <div class="carousel-caption">
-                    High-fidelity 4D generation result
-                </div> -->
             </div>
         </section>
 
@@ -1103,8 +956,7 @@ video: './assets/dog_65.mp4',
                     <!-- 左侧：视频 -->
                     <div class="comp-video-box">
                         <video id="compVideo" autoplay loop muted playsinline>
-                            <!-- 默认加载第一个视频 -->
-<source src="./assets/real_1_64f.mp4" type="video/mp4">
+                            <source src="./assets/real_1_64f.mp4" type="video/mp4">
                         </video>
                     </div>
 
@@ -1118,8 +970,9 @@ video: './assets/dog_65.mp4',
                         <model-viewer 
                             id="compModel"
                             class="comp-viewer"
-src="./assets/real1.glb" 
-                            shadow-intensity                            camera-controls
+                            src="./assets/real1.glb" 
+                            shadow-intensity 
+                            camera-controls
                             autoplay>
                             
                             <!-- 加载进度条 -->
@@ -1148,7 +1001,7 @@ src="./assets/real1.glb"
                 <!-- 左侧：静态源模型 (Source) -->
                 <div class="model-box">
                     <model-viewer 
-src="./assets/stormtrooper.glb" 
+                        src="./assets/stormtrooper.glb" 
                         alt="Static Source Model"
                         shadow-intensity="1"
                         camera-controls>
@@ -1166,27 +1019,20 @@ src="./assets/stormtrooper.glb"
 
                 <!-- 中间：动作选择列表 (Motion List) -->
                 <div class="motion-list" id="motionList">
-                    <!-- 选项 1 (默认选中) -->
                     <div class="motion-item active" onclick="selectMotion(0)">
-<img src="./assets/4.jpg" alt="Pose1">
+                        <img src="./assets/4.jpg" alt="Pose1">
                     </div>
-                    
-                    <!-- 选项 2 -->
                     <div class="motion-item" onclick="selectMotion(1)">
-<img src="./assets/0000.png" alt="Pose2">
+                        <img src="./assets/0000.png" alt="Pose2">
                     </div>
-
-                    <!-- 选项 3 -->
                     <div class="motion-item" onclick="selectMotion(2)">
-<img src="./assets/0005.png" alt="Pose3">
+                        <img src="./assets/0005.png" alt="Pose3">
                     </div>
-
                     <div class="motion-item" onclick="selectMotion(3)">
-<img src="./assets/digimon.png" alt="Pose4">
+                        <img src="./assets/digimon.png" alt="Pose4">
                     </div>
-
                     <div class="motion-item" onclick="selectMotion(4)">
-<img src="./assets/skull.png" alt="Pose5">
+                        <img src="./assets/skull.png" alt="Pose5">
                     </div>
                 </div>
 
@@ -1199,7 +1045,7 @@ src="./assets/stormtrooper.glb"
                 <div class="model-box">
                     <model-viewer 
                         id="resultViewer"
-src="./assets/4.glb" 
+                        src="./assets/4.glb" 
                         poster="./assets/loading_poster.jpg"
                         alt="Animated Result"
                         shadow-intensity="1"
@@ -1220,84 +1066,6 @@ src="./assets/4.glb"
 
             </div>
         </section>
-
-        
-
-        <!-- 脚本放在 Section 之后，确保元素已存在 -->
-        <script>
-            // 1. 定义数据
-            const motions = [
-{ id: 0, glb: './assets/4.glb' },
-                { id: 1, glb: './assets/0000.glb' },
-                { id: 2, glb: './assets/0005.glb' },
-                { id: 3, glb: './assets/tpose.glb' },
-                { id: 4, glb: './assets/skull_pose.glb' }
-            ];
-
-            // 2. 获取 DOM 元素
-            const resultViewer = document.getElementById('resultViewer');
-            const transferProgress = document.getElementById('transfer-progress');
-            const motionItems = document.querySelectorAll('.motion-item');
-
-            // 3. 状态变量：记录当前选中的索引，默认为 0
-            let currentMotionIndex = 0;
-
-            // 4. 定义切换函数
-            window.selectMotion = function(index) {
-                // --- 核心修复：直接比较索引 ---
-                // 如果点击的正是当前已选中的，且模型没有丢失，则不进行重复加载
-                // 但为了保险起见（比如用户想强制重置动画），我们可以去掉 return，或者只在 src 确实相同时 return
-                // 这里我们使用最稳健的逻辑：只要点击，就执行 UI 更新；如果索引不同，则切换模型。
-                
-                if (index === currentMotionIndex) {
-                    // 如果你希望点击已选中的也能重播动画，请注释掉下面这行
-                    // return; 
-                }
-
-                // 更新当前索引
-                currentMotionIndex = index;
-
-                // --- 逻辑 A: 切换模型 ---
-                const selectedData = motions[index];
-                if (selectedData && resultViewer) {
-                    // 直接赋值，model-viewer 内部会自动处理是否需要重新加载
-                    resultViewer.src = selectedData.glb;
-                    
-                    // 如果需要重置播放进度到 0
-                    resultViewer.currentTime = 0;
-                }
-
-                // --- 逻辑 B: 更新 UI 样式 ---
-                motionItems.forEach((item, idx) => {
-                    if (idx === index) {
-                        item.classList.add('active');
-                        
-                        // --- 逻辑 C: 自动滚动居中 ---
-                        item.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'center',
-                            inline: 'center'
-                        });
-                    } else {
-                        item.classList.remove('active');
-                    }
-                });
-            };
-
-            // 5. 进度条监听
-            if (resultViewer) {
-                resultViewer.addEventListener('progress', (event) => {
-                    const percentage = event.detail.totalProgress * 100;
-                    if (transferProgress) {
-                        transferProgress.style.width = `${percentage}%`;
-                        // 加载完成后隐藏进度条（可选）
-                        if (percentage >= 100) {
-                            setTimeout(() => { transferProgress.style.width = '0%'; }, 500);
-                        }
-                    }
-                });
-            }
-        </script>
 
         <section>
             <h2>Motion Retargeting Application</h2>
@@ -1321,12 +1089,12 @@ src="./assets/4.glb"
                     <div class="matrix-cell">
                         <div class="case-label">Rendered</div>
                         <video autoplay loop muted playsinline>
-<source src="./assets/mt_render_ref.mp4" type="video/mp4">
+                            <source src="./assets/mt_render_ref.mp4" type="video/mp4">
                         </video>
                     </div>
                     <div class="matrix-cell">
                         <video autoplay loop muted playsinline>
-<source src="./assets/mt_render_new.mp4" type="video/mp4">
+                            <source src="./assets/mt_render_new.mp4" type="video/mp4">
                         </video>
                     </div>
 
@@ -1334,12 +1102,12 @@ src="./assets/4.glb"
                     <div class="matrix-cell">
                         <div class="case-label">Generated</div>
                         <video autoplay loop muted playsinline>
-<source src="./assets/mt_gen_ref.mp4" type="video/mp4">
+                            <source src="./assets/mt_gen_ref.mp4" type="video/mp4">
                         </video>
                     </div>
                     <div class="matrix-cell">
                         <video autoplay loop muted playsinline>
-<source src="./assets/mt_gen.mp4" type="video/mp4">
+                            <source src="./assets/mt_gen.mp4" type="video/mp4">
                         </video>
                     </div>
 
@@ -1347,12 +1115,12 @@ src="./assets/4.glb"
                     <div class="matrix-cell">
                         <div class="case-label">In-the-Wild</div>
                         <video autoplay loop muted playsinline>
-<source src="./assets/mt_real_ref.mp4" type="video/mp4">
+                            <source src="./assets/mt_real_ref.mp4" type="video/mp4">
                         </video>
                     </div>
                     <div class="matrix-cell">
                         <video autoplay loop muted playsinline>
-<source src="./assets/mt_real.mp4" type="video/mp4">
+                            <source src="./assets/mt_real.mp4" type="video/mp4">
                         </video>
                     </div>
 
@@ -1360,46 +1128,17 @@ src="./assets/4.glb"
             </div>
         </section>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const videos = document.querySelectorAll('.matrix-grid video');
-                
-                // 简单的同步逻辑：当第一个视频循环时，强制所有视频对齐时间
-                if(videos.length > 0) {
-                    const masterVideo = videos[0];
-                    
-                    masterVideo.addEventListener('play', () => {
-                        videos.forEach(v => {
-                            if(v !== masterVideo) v.play();
-                        });
-                    });
-                    
-                    // 每隔一段时间校准一次，防止不同步
-                    setInterval(() => {
-                        if (!masterVideo.paused) {
-                            videos.forEach(v => {
-                                // 如果误差超过 0.1 秒，则强制同步
-                                if (Math.abs(v.currentTime - masterVideo.currentTime) > 0.1) {
-                                    v.currentTime = masterVideo.currentTime;
-                                }
-                            });
-                        }
-                    }, 1000);
-                }
-            });
-        </script>
-
-        <!-- BIBTEX -->
-        <!-- <section>
+        <!-- BIBTEX - [此处修改] 替换为你真实的 BibTeX -->
+        <section>
             <h2>Citation</h2>
-            <pre class="bibtex-section"><code>@inproceedings{zhang202xvideoguided,
-  title={High-Fidelity Video-Guided Mesh Animation via Neural Deformation Fields},
-  author={Zhang, San and Li, Si and Wang, Wu and Zhao, Liu},
-  booktitle={SIGGRAPH Conference Proceedings},
-  year={202X},
+            <pre class="bibtex-section"><code>@inproceedings{rdmesh2024,
+  title={R-DMesh: Video-Guided 3D Animation via Rectified Dynamic Mesh Flow},
+  author={Wu, Zijie and Xu, Lixin and Jiang, Puhua and Liu, Sicong and Guo, Chunchao and Bai, Xiang},
+  booktitle={ACM SIGGRAPH 2026 Conference Proceedings},
+  year={2026},
   publisher={ACM}
 }</code></pre>
-        </section> -->
+        </section>
 
     </div>
 
@@ -1411,6 +1150,190 @@ src="./assets/4.glb"
             Template design inspired by <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
         </p>
     </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Carousel Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const track = document.getElementById('track');
+            const slides = Array.from(track.children);
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            
+            let currentIndex = 0;
+
+            const updateSlidePosition = () => {
+                const slideWidth = slides[0].getBoundingClientRect().width;
+                track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+            };
+
+            nextBtn.addEventListener('click', () => {
+                currentIndex++;
+                if (currentIndex >= slides.length) {
+                    currentIndex = 0;
+                }
+                updateSlidePosition();
+            });
+
+            prevBtn.addEventListener('click', () => {
+                currentIndex--;
+                if (currentIndex < 0) {
+                    currentIndex = slides.length - 1;
+                }
+                updateSlidePosition();
+            });
+
+            window.addEventListener('resize', updateSlidePosition);
+        });
+    </script>
+
+    <!-- 引入 model-viewer 组件 -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
+
+    <script>
+        // Comparison Section Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const dataList = [
+                {
+                    video: './assets/real_1_64f.mp4',
+                    model: './assets/real1.glb',
+                    title: 'Dance1'
+                },
+                {
+                    video: './assets/dance1.mp4',
+                    model: './assets/dance1.glb',
+                    title: 'Dance2'
+                },
+                {
+                    video: './assets/dance3.mp4',
+                    model: './assets/dance3.glb',
+                    title: 'Dance3'
+                },
+                {
+                    video: './assets/dog_65.mp4',
+                    model: './assets/dog.glb',
+                    title: 'Dog'
+                }
+            ];
+
+            let currentIndex = 0;
+
+            const videoEl = document.getElementById('compVideo');
+            const modelEl = document.getElementById('compModel');
+            const captionEl = document.getElementById('compCaption');
+            const btnPrev = document.getElementById('btnPrev');
+            const btnNext = document.getElementById('btnNext');
+            const progressBar = document.getElementById('comp-progress');
+
+            function updateContent(index) {
+                const item = dataList[index];
+                videoEl.src = item.video;
+                videoEl.load(); 
+                videoEl.play().catch(e => {});
+                modelEl.src = item.model;
+                captionEl.textContent = item.title;
+            }
+
+            btnPrev.addEventListener('click', () => {
+                currentIndex--;
+                if (currentIndex < 0) currentIndex = dataList.length - 1;
+                updateContent(currentIndex);
+            });
+
+            btnNext.addEventListener('click', () => {
+                currentIndex++;
+                if (currentIndex >= dataList.length) currentIndex = 0;
+                updateContent(currentIndex);
+            });
+
+            modelEl.addEventListener('progress', (event) => {
+                const percentage = event.detail.totalProgress * 100;
+                if (progressBar) progressBar.style.width = `${percentage}%`;
+            });
+            
+            updateContent(0);
+        });
+    </script>
+
+    <script>
+        // Pose Retargeting Logic
+        const motions = [
+            { id: 0, glb: './assets/4.glb' },
+            { id: 1, glb: './assets/0000.glb' },
+            { id: 2, glb: './assets/0005.glb' },
+            { id: 3, glb: './assets/tpose.glb' },
+            { id: 4, glb: './assets/skull_pose.glb' }
+        ];
+
+        const resultViewer = document.getElementById('resultViewer');
+        const transferProgress = document.getElementById('transfer-progress');
+        const motionItems = document.querySelectorAll('.motion-item');
+        let currentMotionIndex = 0;
+
+        window.selectMotion = function(index) {
+            if (index === currentMotionIndex) return;
+
+            currentMotionIndex = index;
+            const selectedData = motions[index];
+            
+            if (selectedData && resultViewer) {
+                resultViewer.src = selectedData.glb;
+                resultViewer.currentTime = 0;
+            }
+
+            motionItems.forEach((item, idx) => {
+                if (idx === index) {
+                    item.classList.add('active');
+                    item.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center',
+                        inline: 'center'
+                    });
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        };
+
+        if (resultViewer) {
+            resultViewer.addEventListener('progress', (event) => {
+                const percentage = event.detail.totalProgress * 100;
+                if (transferProgress) {
+                    transferProgress.style.width = `${percentage}%`;
+                    if (percentage >= 100) {
+                        setTimeout(() => { transferProgress.style.width = '0%'; }, 500);
+                    }
+                }
+            });
+        }
+    </script>
+
+    <script>
+        // Matrix Video Sync Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const videos = document.querySelectorAll('.matrix-grid video');
+            
+            if(videos.length > 0) {
+                const masterVideo = videos[0];
+                
+                masterVideo.addEventListener('play', () => {
+                    videos.forEach(v => {
+                        if(v !== masterVideo) v.play();
+                    });
+                });
+                
+                setInterval(() => {
+                    if (!masterVideo.paused) {
+                        videos.forEach(v => {
+                            if (Math.abs(v.currentTime - masterVideo.currentTime) > 0.1) {
+                                v.currentTime = masterVideo.currentTime;
+                            }
+                        });
+                    }
+                }, 1000);
+            }
+        });
+    </script>
 
 </body>
 </html>
